@@ -1,0 +1,31 @@
+# Archivos del sistema
+.DS_Store
+
+# Archivos de respaldo
+*.bak
+*.save
+*.seguro
+
+# Variables de entorno
+.env
+.env.*
+
+# Logs
+*.log
+
+# Temporales
+*.tmp
+*.temp
+
+# Dependencias de Composer
+/vendor/
+
+# Archivos temporales de editores
+*.swp
+*.swo
+*~
+
+# Configuración local de IDE
+.vscode/
+.idea/
+siafe_antes_proveedores_compras.sql
