@@ -25,7 +25,22 @@ class ProductoController
 
     public function index()
     {
-        $productos = $this->producto->obtenerTodos();
+        $idUsuario = $_SESSION["id_usuario"] ?? null;
+
+        if (!$idUsuario) {
+            header("Location: index.php?page=login");
+            exit;
+        }
+
+        $empresaUsuario = $this->empresa->obtenerPorUsuario($idUsuario);
+
+        if (!$empresaUsuario || empty($empresaUsuario["id_empresa"])) {
+            die("El usuario no tiene una empresa asociada.");
+        }
+
+        $idEmpresa = $empresaUsuario["id_empresa"];
+
+        $productos = $this->producto->obtenerTodos($idEmpresa);
 
         require_once "app/views/productos/index.php";
     }
