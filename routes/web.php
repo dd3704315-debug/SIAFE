@@ -1,0 +1,546 @@
+<?php
+
+require_once "app/middleware/RoleMiddleware.php";
+
+require_once "app/controllers/LoginController.php";
+require_once "app/controllers/RolController.php";
+require_once "app/controllers/UsuarioController.php";
+require_once "app/controllers/EmpresaController.php";
+require_once "app/controllers/ProductoController.php";
+require_once "app/controllers/ClienteController.php";
+require_once "app/controllers/IngresoController.php";
+require_once "app/controllers/GastoController.php";
+require_once "app/controllers/PresupuestoController.php";
+require_once "app/controllers/ReporteController.php";
+require_once "app/controllers/DashboardController.php";
+require_once "app/controllers/VentaController.php";
+require_once "app/controllers/IndicadorController.php";
+require_once "app/controllers/IAController.php";
+require_once "app/controllers/ProveedorController.php";
+require_once "app/controllers/LandingController.php";
+require_once "app/controllers/RegistroController.php";
+
+
+$landingController = new LandingController();
+$registroController = new RegistroController();
+$loginController = new LoginController();
+$rolController = new RolController();
+$usuarioController = new UsuarioController();
+$empresaController = new EmpresaController();
+$productoController = new ProductoController();
+$clienteController = new ClienteController();
+$ingresoController = new IngresoController();
+$gastoController = new GastoController();
+$presupuestoController = new PresupuestoController();
+$reporteController = new ReporteController();
+$dashboardController = new DashboardController();
+$ventaController = new VentaController();
+$indicadorController = new IndicadorController();
+$iaController = new IAController();
+$proveedorController = new ProveedorController();
+
+
+$page = $_GET["page"] ?? "landing";
+
+
+switch ($page) {
+
+    // ==========================================
+    // LOGIN
+    // ==========================================
+
+    case "login":
+        $loginController->index();
+        break;
+
+    case "autenticar":
+        $loginController->autenticar();
+        break;
+
+
+    // ==========================================
+    // PÁGINA PÚBLICA (antes de iniciar sesión)
+    // ==========================================
+
+    case "landing":
+        $landingController->index();
+        break;
+
+
+    // ==========================================
+    // REGISTRO / CREAR CUENTA (asistente por pasos)
+    // ==========================================
+
+    case "registro":
+        $registroController->index();
+        break;
+
+    case "registro_guardar_plan":
+        $registroController->guardarPlan();
+        break;
+
+    case "registro_guardar_empresa":
+        $registroController->guardarEmpresa();
+        break;
+
+    case "registro_guardar_usuario":
+        $registroController->guardarUsuario();
+        break;
+
+    case "registro_confirmar":
+        $registroController->confirmar();
+        break;
+
+    case "recuperarPassword":
+        $loginController->recuperarPassword();
+        break;
+
+    case "procesarRecuperacion":
+        $loginController->procesarRecuperacion();
+        break;
+
+    case "nuevaPassword":
+        $loginController->nuevaPassword();
+        break;
+
+    case "guardarNuevaPassword":
+        $loginController->guardarNuevaPassword();
+        break;
+
+    case "logout":
+        $loginController->cerrarSesion();
+        break;
+
+
+    // ==========================================
+    // DASHBOARD
+    // ==========================================
+
+    case "dashboard":
+        $dashboardController->index();
+        break;
+
+
+    // ==========================================
+    // INDICADORES FINANCIEROS
+    // ==========================================
+
+    case "indicadores":
+        RoleMiddleware::verificar([1, 2]);
+        $indicadorController->index();
+        break;
+
+
+    // ==========================================
+    // INTELIGENCIA ARTIFICIAL
+    // ==========================================
+
+    case "ia":
+        RoleMiddleware::verificar([1, 2]);
+        $iaController->index();
+        break;
+
+
+    // ==========================================
+    // BÚSQUEDA DE PRODUCTOS EN INTERNET
+    // ==========================================
+
+    case "ia_buscar":
+        RoleMiddleware::verificar([1, 2]);
+        $iaController->buscarInternet();
+        break;
+
+
+    // ==========================================
+    // ROLES
+    // ==========================================
+
+    case "roles":
+        RoleMiddleware::verificar([1]);
+        $rolController->index();
+        break;
+
+    case "guardarRol":
+        RoleMiddleware::verificar([1]);
+        $rolController->guardar();
+        break;
+
+    case "editarRol":
+        RoleMiddleware::verificar([1]);
+        $rolController->editar();
+        break;
+
+    case "actualizarRol":
+        RoleMiddleware::verificar([1]);
+        $rolController->actualizar();
+        break;
+
+    case "eliminarRol":
+        RoleMiddleware::verificar([1]);
+        $rolController->eliminar();
+        break;
+
+
+    // ==========================================
+    // USUARIOS
+    // ==========================================
+
+    case "usuarios":
+        RoleMiddleware::verificar([1, 2]);
+        $usuarioController->index();
+        break;
+
+    case "crearUsuario":
+        RoleMiddleware::verificar([1, 2]);
+        $usuarioController->crear();
+        break;
+
+    case "guardarUsuario":
+        RoleMiddleware::verificar([1, 2]);
+        $usuarioController->guardar();
+        break;
+
+    case "editarUsuario":
+        RoleMiddleware::verificar([1, 2]);
+        $usuarioController->editar();
+        break;
+
+    case "actualizarUsuario":
+        RoleMiddleware::verificar([1, 2]);
+        $usuarioController->actualizar();
+        break;
+
+    case "eliminarUsuario":
+        RoleMiddleware::verificar([1, 2]);
+        $usuarioController->eliminar();
+        break;
+
+
+    // ==========================================
+    // EMPRESAS
+    // ==========================================
+
+    case "empresas":
+        RoleMiddleware::verificar([1, 2]);
+        $empresaController->index();
+        break;
+
+    case "crearEmpresa":
+        RoleMiddleware::verificar([1, 2]);
+        $empresaController->crear();
+        break;
+
+    case "guardarEmpresa":
+        RoleMiddleware::verificar([1, 2]);
+        $empresaController->guardar();
+        break;
+
+    case "editarEmpresa":
+        RoleMiddleware::verificar([1, 2]);
+        $empresaController->editar();
+        break;
+
+    case "actualizarEmpresa":
+        RoleMiddleware::verificar([1, 2]);
+        $empresaController->actualizar();
+        break;
+
+    case "eliminarEmpresa":
+        RoleMiddleware::verificar([1, 2]);
+        $empresaController->eliminar();
+        break;
+
+
+    // ==========================================
+    // PRODUCTOS
+    // ==========================================
+
+    case "productos":
+        RoleMiddleware::verificar([1, 2, 3]);
+        $productoController->index();
+        break;
+
+    case "crearProducto":
+        RoleMiddleware::verificar([1, 2, 3]);
+        $productoController->crear();
+        break;
+
+    case "guardarProducto":
+        RoleMiddleware::verificar([1, 2, 3]);
+        $productoController->guardar();
+        break;
+
+    case "editarProducto":
+        RoleMiddleware::verificar([1, 2, 3]);
+        $productoController->editar();
+        break;
+
+    case "actualizarProducto":
+        RoleMiddleware::verificar([1, 2, 3]);
+        $productoController->actualizar();
+        break;
+
+    case "eliminarProducto":
+        RoleMiddleware::verificar([1, 2, 3]);
+        $productoController->eliminar();
+        break;
+
+
+    // ==========================================
+    // CLIENTES
+    // ==========================================
+
+    case "clientes":
+        RoleMiddleware::verificar([1, 2, 3]);
+        $clienteController->index();
+        break;
+
+    case "crearCliente":
+        RoleMiddleware::verificar([1, 2, 3]);
+        $clienteController->crear();
+        break;
+
+    case "guardarCliente":
+        RoleMiddleware::verificar([1, 2, 3]);
+        $clienteController->guardar();
+        break;
+
+    case "editarCliente":
+        RoleMiddleware::verificar([1, 2, 3]);
+        $clienteController->editar();
+        break;
+
+    case "actualizarCliente":
+        RoleMiddleware::verificar([1, 2, 3]);
+        $clienteController->actualizar();
+        break;
+
+    case "eliminarCliente":
+        RoleMiddleware::verificar([1, 2, 3]);
+        $clienteController->eliminar();
+        break;
+
+
+    // ==========================================
+    // INGRESOS
+    // ==========================================
+
+    case "ingresos":
+        RoleMiddleware::verificar([1, 2]);
+        $ingresoController->index();
+        break;
+
+    case "crearIngreso":
+        RoleMiddleware::verificar([1, 2]);
+        $ingresoController->crear();
+        break;
+
+    case "guardarIngreso":
+        RoleMiddleware::verificar([1, 2]);
+        $ingresoController->guardar();
+        break;
+
+    case "editarIngreso":
+        RoleMiddleware::verificar([1, 2]);
+        $ingresoController->editar();
+        break;
+
+    case "actualizarIngreso":
+        RoleMiddleware::verificar([1, 2]);
+        $ingresoController->actualizar();
+        break;
+
+    case "eliminarIngreso":
+        RoleMiddleware::verificar([1, 2]);
+        $ingresoController->eliminar();
+        break;
+
+
+    // ==========================================
+    // GASTOS
+    // ==========================================
+
+    case "gastos":
+        RoleMiddleware::verificar([1, 2]);
+        $gastoController->index();
+        break;
+
+    case "crearGasto":
+        RoleMiddleware::verificar([1, 2]);
+        $gastoController->crear();
+        break;
+
+    case "guardarGasto":
+        RoleMiddleware::verificar([1, 2]);
+        $gastoController->guardar();
+        break;
+
+    case "editarGasto":
+        RoleMiddleware::verificar([1, 2]);
+        $gastoController->editar();
+        break;
+
+    case "actualizarGasto":
+        RoleMiddleware::verificar([1, 2]);
+        $gastoController->actualizar();
+        break;
+
+    case "eliminarGasto":
+        RoleMiddleware::verificar([1, 2]);
+        $gastoController->eliminar();
+        break;
+
+
+    // ==========================================
+    // PRESUPUESTOS
+    // ==========================================
+
+    case "presupuestos":
+        RoleMiddleware::verificar([1, 2]);
+        $presupuestoController->index();
+        break;
+
+    case "crearPresupuesto":
+        RoleMiddleware::verificar([1, 2]);
+        $presupuestoController->crear();
+        break;
+
+    case "guardarPresupuesto":
+        RoleMiddleware::verificar([1, 2]);
+        $presupuestoController->guardar();
+        break;
+
+    case "editarPresupuesto":
+        RoleMiddleware::verificar([1, 2]);
+        $presupuestoController->editar();
+        break;
+
+    case "actualizarPresupuesto":
+        RoleMiddleware::verificar([1, 2]);
+        $presupuestoController->actualizar();
+        break;
+
+    case "eliminarPresupuesto":
+        RoleMiddleware::verificar([1, 2]);
+        $presupuestoController->eliminar();
+        break;
+
+
+    // ==========================================
+    // REPORTES
+    // ==========================================
+
+    case "reportes":
+        RoleMiddleware::verificar([1, 2]);
+        $reporteController->index();
+        break;
+
+    case "crearReporte":
+        RoleMiddleware::verificar([1, 2]);
+        $reporteController->crear();
+        break;
+
+    case "guardarReporte":
+        RoleMiddleware::verificar([1, 2]);
+        $reporteController->guardar();
+        break;
+
+    case "editarReporte":
+        RoleMiddleware::verificar([1, 2]);
+        $reporteController->editar();
+        break;
+
+    case "actualizarReporte":
+        RoleMiddleware::verificar([1, 2]);
+        $reporteController->actualizar();
+        break;
+
+    case "eliminarReporte":
+        RoleMiddleware::verificar([1, 2]);
+        $reporteController->eliminar();
+        break;
+
+
+    // ==========================================
+    // VENTAS
+    // ==========================================
+
+    case "ventas":
+        RoleMiddleware::verificar([1, 2, 3]);
+        $ventaController->index();
+        break;
+
+    case "crearVenta":
+        RoleMiddleware::verificar([1, 2, 3]);
+        $ventaController->crear();
+        break;
+
+    case "guardarVenta":
+        RoleMiddleware::verificar([1, 2, 3]);
+        $ventaController->guardar();
+        break;
+
+    case "verVenta":
+        RoleMiddleware::verificar([1, 2, 3]);
+        $ventaController->ver();
+        break;
+
+    case "eliminarVenta":
+        RoleMiddleware::verificar([1, 2]);
+        $ventaController->eliminar();
+        break;
+
+    case "actualizarEstadoVenta":
+        RoleMiddleware::verificar([1, 2]);
+        $ventaController->actualizarEstado();
+        break;
+
+    case "anularVenta":
+        RoleMiddleware::verificar([1, 2]);
+        $ventaController->anular();
+        break;
+
+
+    // ==========================================
+    // PROVEEDORES
+    // ==========================================
+
+    case "proveedores":
+        RoleMiddleware::verificar([1, 2, 3]);
+        $proveedorController->index();
+        break;
+
+    case "crearProveedor":
+        RoleMiddleware::verificar([1, 2, 3]);
+        $proveedorController->crear();
+        break;
+
+    case "guardarProveedor":
+        RoleMiddleware::verificar([1, 2, 3]);
+        $proveedorController->guardar();
+        break;
+
+    case "editarProveedor":
+        RoleMiddleware::verificar([1, 2, 3]);
+        $proveedorController->editar();
+        break;
+
+    case "actualizarProveedor":
+        RoleMiddleware::verificar([1, 2, 3]);
+        $proveedorController->actualizar();
+        break;
+
+    case "eliminarProveedor":
+        RoleMiddleware::verificar([1, 2, 3]);
+        $proveedorController->eliminar();
+        break;
+
+
+    // ==========================================
+    // ERROR 404
+    // ==========================================
+
+    default:
+        echo "<h2>Error 404 - Página no encontrada</h2>";
+        break;
+}

@@ -1,0 +1,45 @@
+<?php
+
+class RoleMiddleware
+{
+    public static function verificar(array $rolesPermitidos)
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Verificar que el usuario esté autenticado
+        if (!isset($_SESSION["id_usuario"])) {
+            header("Location: index.php?page=login");
+            exit;
+        }
+
+        // Obtener el rol del usuario
+        $rolUsuario = $_SESSION["rol"] ?? null;
+
+        // Verificar permiso
+        if (!in_array($rolUsuario, $rolesPermitidos)) {
+
+            http_response_code(403);
+
+            echo "
+                <div style='
+                    font-family: Arial;
+                    text-align: center;
+                    margin-top: 100px;
+                '>
+                    <h1>🚫 Acceso denegado</h1>
+                    <p>No tienes permisos para acceder a esta sección.</p>
+                    <a href='index.php?page=dashboard'>
+                        Volver al Dashboard
+                    </a>
+                </div>
+            ";
+
+            exit;
+        }
+    }
+}
+/Applications/XAMPP/xamppfiles/bin/php -l app/middleware/RoleMiddleware.php
+
+
